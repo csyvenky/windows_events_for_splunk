@@ -39,6 +39,20 @@
 				"query": "index=\"windows_events\" source=\"WinEventLog:Security\"\n| stats count by EventCode\n| where count >= 100\n| sort - count"
 			},
 			"name": "Count by EventCode "
+		},
+		"ds_JV21iuxX": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=\"windows_events\" sourcetype=\"WinEventLog:System\"\n| stats count by OpCode\n| sort - count"
+			},
+			"name": "System :: Count by OpCode"
+		},
+		"ds_Ee4shQVb": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=\"windows_events\" sourcetype=\"WinEventLog:System\"\n| stats count by EventCode\n| sort - count"
+			},
+			"name": "System :: Count by Event Code"
 		}
 	},
 	"visualizations": {
@@ -81,14 +95,14 @@
 			"dataSources": {
 				"primary": "ds_search_1"
 			},
-			"title": "Count by Event Code"
+			"title": "Security :: Count by Event Code"
 		},
 		"viz_5aTCZbsy": {
 			"type": "viz.area",
 			"dataSources": {
 				"primary": "ds_jwsNOmHM"
 			},
-			"title": "Count by Event Code (no count)",
+			"title": "Security :: Count by Event Code (no count)",
 			"options": {
 				"axisTitleX.text": "Event Code",
 				"axisTitleY.text": "Count",
@@ -100,7 +114,7 @@
 			"dataSources": {
 				"primary": "ds_cFqvTbef"
 			},
-			"title": "Count by Event Code (no count)",
+			"title": "Security :: Count by Event Code (no count)",
 			"options": {
 				"chart.showPercent": true
 			}
@@ -113,7 +127,30 @@
 			"options": {
 				"chart.showPercent": true
 			},
-			"title": "Count by Event Code"
+			"title": "Security :: Count by Event Code"
+		},
+		"viz_RnE4PJlH": {
+			"type": "viz.bar",
+			"dataSources": {
+				"primary": "ds_JV21iuxX"
+			},
+			"title": "System :: Count by OpCode",
+			"options": {
+				"axisTitleX.text": "",
+				"legend.placement": "none",
+				"chart.showDataLabels": "all"
+			}
+		},
+		"viz_G10RNQjT": {
+			"type": "viz.area",
+			"dataSources": {
+				"primary": "ds_Ee4shQVb"
+			},
+			"title": "System :: Count by Event Code",
+			"options": {
+				"legend.placement": "none",
+				"chart.showDataLabels": "minmax"
+			}
 		}
 	},
 	"inputs": {
@@ -170,6 +207,26 @@
 					"y": 309,
 					"w": 600,
 					"h": 268
+				}
+			},
+			{
+				"item": "viz_RnE4PJlH",
+				"type": "block",
+				"position": {
+					"x": 0,
+					"y": 777,
+					"w": 1200,
+					"h": 200
+				}
+			},
+			{
+				"item": "viz_G10RNQjT",
+				"type": "block",
+				"position": {
+					"x": 0,
+					"y": 577,
+					"w": 1200,
+					"h": 200
 				}
 			}
 		],
