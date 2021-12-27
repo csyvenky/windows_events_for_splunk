@@ -67,6 +67,20 @@
 				"query": "index=\"windows_events\" sourcetype=\"WinEventLog:System\"\n| stats count by EventCode\n| sort - count"
 			},
 			"name": "System :: Count by Event Code"
+		},
+		"ds_olYUtx7E": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=\"windows_events\" sourcetype=\"WinEventLog:Microsoft-Windows-AAD/Operational\"\n| stats count by TokenEndpoint\n| sort - count"
+			},
+			"name": "Microsoft-Windows-AAD :: Count by Token Endpoint"
+		},
+		"ds_RP91cqbJ": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=\"windows_events\" host=hawaii sourcetype=\"WinEventLog:Microsoft-Windows-Windows Firewall With Advanced Security/Firewall\" EventCode=2006\n| stats count by Rule_Name \n| sort - count"
+			},
+			"name": "Microsoft-Windows-Windows Firewall :: Count by Rule Name"
 		}
 	},
 	"visualizations": {
@@ -136,6 +150,23 @@
 			"options": {
 				"chart.showPercent": true
 			}
+		},
+		"viz_7qjfVwnC": {
+			"type": "viz.pie",
+			"dataSources": {
+				"primary": "ds_olYUtx7E"
+			},
+			"title": "Microsoft-Windows-AAD :: Count by Token Endpoint",
+			"options": {
+				"chart.showPercent": true
+			}
+		},
+		"viz_JR5ES5VG": {
+			"type": "viz.pie",
+			"dataSources": {
+				"primary": "ds_RP91cqbJ"
+			},
+			"title": "Microsoft-Windows-Windows Firewall :: Count by Rule Name"
 		}
 	},
 	"inputs": {
@@ -212,6 +243,26 @@
 					"y": 0,
 					"w": 600,
 					"h": 309
+				}
+			},
+			{
+				"item": "viz_JR5ES5VG",
+				"type": "block",
+				"position": {
+					"x": 600,
+					"y": 909,
+					"w": 600,
+					"h": 200
+				}
+			},
+			{
+				"item": "viz_7qjfVwnC",
+				"type": "block",
+				"position": {
+					"x": 0,
+					"y": 909,
+					"w": 600,
+					"h": 200
 				}
 			}
 		],
