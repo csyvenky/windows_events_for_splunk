@@ -81,6 +81,20 @@
 				"query": "index=\"windows_events\" host=hawaii sourcetype=\"WinEventLog:Microsoft-Windows-Windows Firewall With Advanced Security/Firewall\" EventCode=2006\n| stats count by Rule_Name \n| sort - count"
 			},
 			"name": "Microsoft-Windows-Windows Firewall :: Count by Rule Name"
+		},
+		"ds_AxBcquEa": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=\"windows_events\" host=hawaii sourcetype=\"WinEventLog:Microsoft-Windows-Windows Firewall With Advanced Security/Firewall\"\n| stats count by Action \n| sort - count"
+			},
+			"name": "Microsoft-Windows-Windows Firewall :: Count by Action"
+		},
+		"ds_pW6jhz1Q_ds_AxBcquEa": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=\"windows_events\" host=hawaii sourcetype=\"WinEventLog:Microsoft-Windows-Windows Firewall With Advanced Security/Firewall\"\n| stats count by Direction \n| sort - count"
+			},
+			"name": "Microsoft-Windows-Windows Firewall :: Count by Direction"
 		}
 	},
 	"visualizations": {
@@ -167,6 +181,30 @@
 				"primary": "ds_RP91cqbJ"
 			},
 			"title": "Microsoft-Windows-Windows Firewall :: Count by Rule Name"
+		},
+		"viz_i7f1Wf5f": {
+			"type": "viz.column",
+			"dataSources": {
+				"primary": "ds_AxBcquEa"
+			},
+			"title": "Microsoft-Windows-Windows Firewall :: Count by Action",
+			"options": {
+				"axisTitleY.text": "Count",
+				"axisTitleX.text": "F/W Action",
+				"legend.placement": "none"
+			}
+		},
+		"viz_GJ2NQvIz": {
+			"type": "viz.column",
+			"dataSources": {
+				"primary": "ds_pW6jhz1Q_ds_AxBcquEa"
+			},
+			"title": "Microsoft-Windows-Windows Firewall :: Count by Direction",
+			"options": {
+				"axisTitleY.text": "Count",
+				"axisTitleX.text": "F/W Action",
+				"legend.placement": "none"
+			}
 		}
 	},
 	"inputs": {
@@ -246,22 +284,42 @@
 				}
 			},
 			{
-				"item": "viz_JR5ES5VG",
-				"type": "block",
-				"position": {
-					"x": 600,
-					"y": 909,
-					"w": 600,
-					"h": 200
-				}
-			},
-			{
 				"item": "viz_7qjfVwnC",
 				"type": "block",
 				"position": {
 					"x": 0,
 					"y": 909,
+					"w": 1200,
+					"h": 200
+				}
+			},
+			{
+				"item": "viz_GJ2NQvIz",
+				"type": "block",
+				"position": {
+					"x": 600,
+					"y": 1309,
 					"w": 600,
+					"h": 200
+				}
+			},
+			{
+				"item": "viz_i7f1Wf5f",
+				"type": "block",
+				"position": {
+					"x": 0,
+					"y": 1309,
+					"w": 600,
+					"h": 200
+				}
+			},
+			{
+				"item": "viz_JR5ES5VG",
+				"type": "block",
+				"position": {
+					"x": 0,
+					"y": 1109,
+					"w": 1200,
 					"h": 200
 				}
 			}
