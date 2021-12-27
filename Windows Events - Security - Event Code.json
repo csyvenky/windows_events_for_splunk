@@ -22,14 +22,14 @@
 		"ds_jwsNOmHM": {
 			"type": "ds.search",
 			"options": {
-				"query": "index=\"windows_events\" source=\"WinEventLog:Security\"\n| stats count by EventCode\n| sort - count"
+				"query": "index=\"windows_events\" source=\"WinEventLog:Security\"\n| stats count by EventCode\n| where count >= $recordNumber$\n| sort - count"
 			},
 			"name": "Count by Event Count"
 		},
 		"ds_cFqvTbef": {
 			"type": "ds.search",
 			"options": {
-				"query": "index=\"windows_events\" source=\"WinEventLog:Security\"\n| stats count by EventCode\n| sort - count"
+				"query": "index=\"windows_events\" source=\"WinEventLog:Security\"\n| stats count by EventCode\n| where count >= $recordNumber$\n| sort - count"
 			},
 			"name": "Count by Event Count"
 		},
@@ -43,28 +43,28 @@
 		"ds_JV21iuxX": {
 			"type": "ds.search",
 			"options": {
-				"query": "index=\"windows_events\" sourcetype=\"WinEventLog:System\"\n| stats count by OpCode\n| sort - count"
+				"query": "index=\"windows_events\" sourcetype=\"WinEventLog:System\"\n| stats count by OpCode\n| where count >= $recordNumber$\n| sort - count"
 			},
 			"name": "System :: Count by OpCode"
 		},
 		"ds_Ee4shQVb": {
 			"type": "ds.search",
 			"options": {
-				"query": "index=\"windows_events\" sourcetype=\"WinEventLog:System\"\n| stats count by EventCode\n| sort - count"
+				"query": "index=\"windows_events\" sourcetype=\"WinEventLog:System\"\n| stats count by EventCode\n| where count >= $recordNumber$\n| sort - count"
 			},
 			"name": "System :: Count by Event Code"
 		},
 		"ds_87OU1mqW_ds_JV21iuxX": {
 			"type": "ds.search",
 			"options": {
-				"query": "index=\"windows_events\" sourcetype=\"WinEventLog:Application\"\n| stats count by OpCode\n| sort - count"
+				"query": "index=\"windows_events\" sourcetype=\"WinEventLog:Application\"\n| stats count by OpCode\n| where count >= $recordNumber$\n| sort - count"
 			},
 			"name": "Application :: Count by OpCode"
 		},
 		"ds_Jf0J4log_ds_cFqvTbef": {
 			"type": "ds.search",
 			"options": {
-				"query": "index=\"windows_events\" sourcetype=\"WinEventLog:System\"\n| stats count by EventCode\n| sort - count"
+				"query": "index=\"windows_events\" sourcetype=\"WinEventLog:System\"\n| stats count by EventCode\n| where count >= $recordNumber$\n| sort - count"
 			},
 			"name": "System :: Count by Event Code"
 		},
@@ -95,6 +95,27 @@
 				"query": "index=\"windows_events\" host=hawaii sourcetype=\"WinEventLog:Microsoft-Windows-Windows Firewall With Advanced Security/Firewall\"\n| stats count by Direction \n| sort - count"
 			},
 			"name": "Microsoft-Windows-Windows Firewall :: Count by Direction"
+		},
+		"ds_UqUpBkkD": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=\"windows_events\" host=hawaii source=\"WinEventLog:Security\"\n| stats count by date_hour date_wday"
+			},
+			"name": "Search_1"
+		},
+		"ds_y2mLj25m": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=\"windows_events\" host=hawaii source=\"WinEventLog:Security\"\n| stats count values(Account_Domain) AS \"Account Domain\" by TaskCategory, date_hour\n| table TaskCategory date_hour count \"Account Domain\""
+			},
+			"name": "Search_2"
+		},
+		"ds_q8ss2J7N": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=\"windows_events\" host=hawaii source=\"WinEventLog:Security\"\n| stats count BY date_hour Account_Name"
+			},
+			"name": "Search_3"
 		}
 	},
 	"visualizations": {
@@ -214,7 +235,17 @@
 				"token": "global_time",
 				"defaultValue": "-24h@h,now"
 			},
-			"title": "Global Time Range"
+			"title": "Time Range:"
+		},
+		"input_YacRBoZR": {
+			"options": {
+				"defaultValue": 10,
+				"token": "recordNumber",
+				"min": 1,
+				"max": 1000
+			},
+			"title": "Record Count:",
+			"type": "input.number"
 		}
 	},
 	"layout": {
@@ -325,7 +356,8 @@
 			}
 		],
 		"globalInputs": [
-			"input_global_trp"
+			"input_global_trp",
+			"input_YacRBoZR"
 		]
 	},
 	"title": "Windows Events",
