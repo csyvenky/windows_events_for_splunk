@@ -1,0 +1,193 @@
+{
+	"dataSources": {
+		"ds_search_1_new": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=\"windows_events\" source=\"WinEventLog:Security\" \n| stats count by EventCode\n| fit DensityFunction count BY EventCode show_density=true show_options=\"feature_variables,split_by,params\"",
+				"queryParameters": {
+					"earliest": "0"
+				}
+			}
+		},
+		"ds_search_1": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=\"windows_events\" source=\"WinEventLog:Security\"\n| stats count by EventCode\n| where count >= 100\n| sort - count",
+				"queryParameters": {
+					"earliest": "0"
+				}
+			},
+			"name": "Count by EventCode"
+		},
+		"ds_jwsNOmHM": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=\"windows_events\" source=\"WinEventLog:Security\"\n| stats count by EventCode\n| sort - count"
+			},
+			"name": "Count by Event Count (no count)"
+		},
+		"ds_cFqvTbef": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=\"windows_events\" source=\"WinEventLog:Security\"\n| stats count by EventCode\n| sort - count"
+			},
+			"name": "Count by Event Count (no count)"
+		},
+		"ds_NGSocVNW": {
+			"type": "ds.search",
+			"options": {
+				"query": "index=\"windows_events\" source=\"WinEventLog:Security\"\n| stats count by EventCode\n| where count >= 100\n| sort - count"
+			},
+			"name": "Count by EventCode "
+		}
+	},
+	"visualizations": {
+		"viz_chart_1": {
+			"type": "viz.area",
+			"options": {
+				"axisLabelsX.majorLabelStyle.overflowMode": "ellipsisNone",
+				"axisLabelsX.majorLabelStyle.rotation": 0,
+				"axisTitleX.visibility": "visible",
+				"axisTitleY.visibility": "visible",
+				"axisTitleY2.visibility": "visible",
+				"axisX.abbreviation": "none",
+				"axisX.scale": "linear",
+				"axisY.abbreviation": "none",
+				"axisY.scale": "linear",
+				"axisY2.abbreviation": "none",
+				"axisY2.enabled": 0,
+				"axisY2.scale": "inherit",
+				"chart.bubbleMaximumSize": 50,
+				"chart.bubbleMinimumSize": 10,
+				"chart.bubbleSizeBy": "area",
+				"chart.nullValueMode": "gaps",
+				"chart.sliceCollapsingThreshold": 0.01,
+				"chart.stackMode": "default",
+				"chart.style": "shiny",
+				"drilldown": "none",
+				"layout.splitSeries": 0,
+				"layout.splitSeries.allowIndependentYRanges": 0,
+				"legend.labelStyle.overflowMode": "ellipsisMiddle",
+				"legend.mode": "standard",
+				"legend.placement": "none",
+				"lineWidth": 2,
+				"trellis.enabled": 0,
+				"trellis.scales.shared": 1,
+				"trellis.size": "medium",
+				"axisTitleX.text": "Event Code",
+				"axisTitleY.text": "Count",
+				"chart.showDataLabels": "all"
+			},
+			"dataSources": {
+				"primary": "ds_search_1"
+			},
+			"title": "Count by Event Code"
+		},
+		"viz_5aTCZbsy": {
+			"type": "viz.area",
+			"dataSources": {
+				"primary": "ds_jwsNOmHM"
+			},
+			"title": "Count by Event Code (no count)",
+			"options": {
+				"axisTitleX.text": "Event Code",
+				"axisTitleY.text": "Count",
+				"legend.placement": "none"
+			}
+		},
+		"viz_LmeBs9uY": {
+			"type": "viz.pie",
+			"dataSources": {
+				"primary": "ds_cFqvTbef"
+			},
+			"title": "Count by Event Code (no count)",
+			"options": {
+				"chart.showPercent": true
+			}
+		},
+		"viz_VKgzCP7X": {
+			"type": "viz.pie",
+			"dataSources": {
+				"primary": "ds_NGSocVNW"
+			},
+			"options": {
+				"chart.showPercent": true
+			},
+			"title": "Count by Event Code"
+		}
+	},
+	"inputs": {
+		"input_global_trp": {
+			"type": "input.timerange",
+			"options": {
+				"token": "global_time",
+				"defaultValue": "-24h@h,now"
+			},
+			"title": "Global Time Range"
+		}
+	},
+	"layout": {
+		"type": "grid",
+		"options": {
+			"showTitleAndDescription": true
+		},
+		"structure": [
+			{
+				"item": "viz_LmeBs9uY",
+				"type": "block",
+				"position": {
+					"x": 600,
+					"y": 0,
+					"w": 600,
+					"h": 309
+				}
+			},
+			{
+				"item": "viz_5aTCZbsy",
+				"type": "block",
+				"position": {
+					"x": 0,
+					"y": 0,
+					"w": 600,
+					"h": 309
+				}
+			},
+			{
+				"item": "viz_VKgzCP7X",
+				"type": "block",
+				"position": {
+					"x": 600,
+					"y": 309,
+					"w": 600,
+					"h": 268
+				}
+			},
+			{
+				"item": "viz_chart_1",
+				"type": "block",
+				"position": {
+					"x": 0,
+					"y": 309,
+					"w": 600,
+					"h": 268
+				}
+			}
+		],
+		"globalInputs": [
+			"input_global_trp"
+		]
+	},
+	"title": "Windows Events - Security - Event Code",
+	"defaults": {
+		"dataSources": {
+			"ds.search": {
+				"options": {
+					"queryParameters": {
+						"latest": "$global_time.latest$",
+						"earliest": "$global_time.earliest$"
+					}
+				}
+			}
+		}
+	}
+}
